@@ -1,1 +1,4 @@
-PORT=4000
+PORT=4000 # API internal port
+POSTGRES_DEV_USER=postgres # Development DB username
+POSTGRES_DEV_PASSWORD=postgres # Development DB password
+POSTGRES_DEV_DB=portfolio_dev_db # Development DB name

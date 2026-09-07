@@ -1,0 +1,41 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "${PORT}:${PORT}"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      # Bind-mount the whole project so file changes on the host are seen
+      # by `tsx watch` inside the container -> hot reload keeps working
+      - .:/app
+      # Anonymous volume: preserves the node_modules installed inside the
+      # image (the bind mount above would otherwise hide it with the host's)
+      - /app/node_modules
+
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_DEV_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_DEV_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DEV_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - portfolio_dev_data:/var/lib/postgresql/data
+      # Run .sql/.sh files from ./db/init on first database initialization
+      # (only when the data volume is empty). Files run in alphabetical order.
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_DEV_USER} -d ${POSTGRES_DEV_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  portfolio_dev_data:
