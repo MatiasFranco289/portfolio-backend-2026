@@ -1,4 +1,6 @@
 PORT=4000 # API internal port
-POSTGRES_DEV_USER=postgres # Development DB username
-POSTGRES_DEV_PASSWORD=postgres # Development DB password
-POSTGRES_DEV_DB=portfolio_dev_db # Development DB name
+POSTGRES_USER=postgres # Postgres DB user
+POSTGRES_PASSWORD=postgres # Postgres DB password
+POSTGRES_DB=portfolio_dev_db # Postgres DB name
+POSTGRES_PORT=5432 # Port for postgres DB
+POSTGRES_HOST=localhost # Host for postgres (Must be the name of the service if running via docker)
