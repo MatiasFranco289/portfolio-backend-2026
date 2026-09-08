@@ -8,13 +8,17 @@ Backend API for the 2026 portfolio site, built with **Node.js + Express + TypeSc
 npm install
 ```
 
-Before running the app you must create a `.env` file following the template defined in `env_example`:
+Before running the app you must create a `.env.development` or a `.env.production` file depending on your objective, following the template defined in `env_example`:
 
 ```bash
-cp env_example .env
+# For development (e.g. `npm run dev`, `npm run dev:docker`)
+cp env_example .env.development
+
+# For production (e.g. `npm run start`)
+cp env_example .env.production
 ```
 
-Then edit `.env` as needed (ports, database credentials, etc.).
+Then edit the created file as needed (ports, database credentials, etc.). Note that `npm run dev:docker` automatically reads `.env.development`.
 
 ## Available scripts
 

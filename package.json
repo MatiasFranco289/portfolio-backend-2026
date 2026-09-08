@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "dev:docker": "docker compose -f docker-compose.dev.yml up",
+    "dev:docker": "docker compose --env-file .env.development -f docker-compose.dev.yml up",
     "build": "tsc",
     "build:docker-dev": "docker compose -f docker-compose.dev.yml build",
     "start": "node dist/index.js",
@@ -23,11 +23,13 @@
   "homepage": "https://github.com/MatiasFranco289/portfolio-backend-2026#readme",
   "dependencies": {
     "dotenv": "^17.4.2",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "pg": "^8.23.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
     "@types/node": "^26.5.0",
+    "@types/pg": "^8.23.1",
     "tsx": "^4.23.13",
     "typescript": "^7.0.2"
   }

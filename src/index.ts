@@ -1,25 +1,32 @@
 import "dotenv/config";
 import express from "express";
 import { DEFAULT_PORT } from "./constants";
+import connectToDB from "./db";
 
-const app = express();
-const PORT = Number(process.env.PORT ?? DEFAULT_PORT);
+async function start() {
+  await connectToDB();
 
-app.use(express.json());
+  const PORT = Number(process.env.PORT ?? DEFAULT_PORT);
+  const app = express();
 
-const server = app.listen(PORT);
+  app.use(express.json());
+  const server = app.listen(PORT);
 
-server.on("listening", () => {
-  const address = server.address();
-  const port = address && typeof address === "object" ? address.port : PORT;
-  console.log(`Portfolio API listening on port ${port}`);
-});
+  // Start server
+  server.on("listening", () => {
+    const address = server.address();
+    const port = address && typeof address === "object" ? address.port : PORT;
+    console.log(`Portfolio API listening on port ${port}`);
+  });
 
-server.on("error", (err: NodeJS.ErrnoException) => {
-  if (err.code === "EADDRINUSE") {
-    console.error(`Port ${PORT} is already in use by another process.`);
-  } else {
-    console.error(`Failed to start server: ${err.message}`);
-  }
-  process.exit(1);
-});
+  server.on("error", (err: NodeJS.ErrnoException) => {
+    if (err.code === "EADDRINUSE") {
+      console.error(`Port ${PORT} is already in use by another process.`);
+    } else {
+      console.error(`Failed to start server: ${err.message}`);
+    }
+    process.exit(1);
+  });
+}
+
+start();
